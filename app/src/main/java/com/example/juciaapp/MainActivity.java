@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         PlatosList = findViewById(R.id.contactosList);
 
         Platos.injectContactsFromCloud(queue, items, this);
+        Platos.sendRequestPOST(queue,this);
         platosApatador = new PlatosAdaptador(this, items,queue.getImageLoader());
 
         PlatosList.setAdapter(platosApatador);

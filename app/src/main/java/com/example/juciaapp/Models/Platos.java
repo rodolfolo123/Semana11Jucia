@@ -1,14 +1,17 @@
 package com.example.juciaapp.Models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-  /*nuevo import*/
+/*nuevo import*/
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.juciaapp.MainActivity;
 import com.example.juciaapp.helpers.QueueUtils;
 
@@ -75,6 +78,60 @@ public class Platos {
                 });
 
         o.addToRequestQueue(jsonObjectRequest);
+    }
+
+
+    public static void sendRequestPOST(QueueUtils.QueueObject o, final MainActivity _interface) {
+        String url = "http://rrojasen.alwaysdata.net/purchaseorders.json";
+        url = "http://fipo.equisd.com/api/users/new.json";
+      /*  url = "http://192.168.58.3:8056/api/users/new.json";*/
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //Do it with this it will work
+                            JSONObject _response = new JSONObject(response);
+                            if (_response.has("object")) {
+                                JSONObject object_response = null;
+                                try {
+                                    object_response = _response.getJSONObject("object");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if ( object_response != null ) {
+                                    try {
+                                        System.out.println(object_response.getInt("id"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        int x= 5;
+                        x++;
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("first_name","Jhonatan");
+                params.put("last_name","Figueroa");
+                params.put("avatar","Amor por Siempre :v");
+
+                return params;
+            }
+        };
+        o.addToRequestQueue(stringRequest);
     }
 }
 
