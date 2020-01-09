@@ -117,15 +117,14 @@ public class Platos {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        int x= 5;
-                        x++;
+
                     }
                 }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("first_name","Jhonatan");
-                params.put("last_name","Figueroa");
+                params.put("first_name","gaa");
+                params.put("last_name","gaa");
                 params.put("avatar","Amor por Siempre :v");
 
                 return params;
