@@ -50,10 +50,10 @@ public class PlatosAdaptador extends ArrayAdapter<Platos> {
         }
         holder.nombre.setText(rowItem.Nombre);
         holder.descripcion.setText(rowItem.Descripcion);
-
+/*
         if ( rowItem.getSmallImage() != null ) { //<----- El modelo debe poseer esta function
             holder.image.setImageUrl(rowItem.getSmallImage(), queue);
-        }
+        }*/
         return convertView;
     }
 }
