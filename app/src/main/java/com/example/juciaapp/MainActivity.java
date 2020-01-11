@@ -2,8 +2,12 @@ package com.example.juciaapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.juciaapp.Adapters.PlatosAdaptador;
 import com.example.juciaapp.Models.Platos;
@@ -21,12 +25,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final Button btnTipoLimeno = findViewById(R.id.btnTipoLimeno);
+        btnTipoLimeno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,
+                        "Platos Limeno",
+                        Toast.LENGTH_SHORT).show();
+                items.clear();
+                Platos.injectContactsFromCloud(queue, items, MainActivity.this,"limeno");
+                btnTipoLimeno.setBackgroundColor(Color.parseColor("#008080"));
+            }
+        });
+
+        final Button btnTipoHuancaino = findViewById(R.id.btnTipoHuancaino);
+        btnTipoHuancaino.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,
+                        "Platos Huancaino",
+                        Toast.LENGTH_SHORT).show();
+                items.clear();
+                Platos.injectContactsFromCloud(queue, items, MainActivity.this,"huancaino");
+                btnTipoHuancaino.setBackgroundColor(Color.parseColor("#008080"));
+            }
+        });
+
         queue = QueueUtils.getInstance(this.getApplicationContext());
 
         items = new ArrayList<>();
         PlatosList = findViewById(R.id.contactosList);
 
-        Platos.injectContactsFromCloud(queue, items, this);
+        Platos.injectContactsFromCloud(queue, items, this,"huancaino");
         Platos.sendRequestPOST(queue,this);
         platosApatador = new PlatosAdaptador(this, items,queue.getImageLoader());
 

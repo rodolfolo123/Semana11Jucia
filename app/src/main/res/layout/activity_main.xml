@@ -5,11 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <ListView
-        android:id="@+id/contactosList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Platos Huancainos"
+            android:id="@+id/btnTipoHuancaino"
+            android:background="@android:color/darker_gray">
+        </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Platos Limeños"
+            android:id="@+id/btnTipoLimeno"
+            android:background="@android:color/holo_purple">
+        </Button>
+        <ListView
+            android:id="@+id/contactosList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

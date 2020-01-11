@@ -44,21 +44,22 @@ public class Platos {
     }*/
     public static void injectContactsFromCloud(final QueueUtils.QueueObject o,
                                                final ArrayList<Platos> platos,
-                                               final MainActivity _interface) {
-        String url = "http://fipo.equisd.com/api/users.json";
+                                               final MainActivity _interface,
+                                               final String Tipo) {
+        String url = "https://bush-quicksand.glitch.me/product.json?tipo=" + Tipo;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (response.has("objects")) {
+                        if (response.has("object")) {
 
                             try {
-                                JSONArray list = response.getJSONArray("objects");
+                                JSONArray list = response.getJSONArray("object");
                                 for (int i=0; i < list.length(); i++) {
                                     JSONObject o = list.getJSONObject(i);
-                                    platos.add(new Platos(o.getString("first_name"),
-                                            o.getString("last_name"),""));
+                                    platos.add(new Platos(o.getString("name"),
+                                            o.getString("descripcion"),""));
                                 }
 
                             } catch (JSONException e) {
@@ -84,7 +85,7 @@ public class Platos {
     public static void sendRequestPOST(QueueUtils.QueueObject o, final MainActivity _interface) {
         String url = "http://rrojasen.alwaysdata.net/purchaseorders.json";
         url = "http://fipo.equisd.com/api/users/new.json";
-      /*  url = "http://192.168.58.3:8056/api/users/new.json";*/
+        url = "https://bush-quicksand.glitch.me/product/new.json";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -123,9 +124,9 @@ public class Platos {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("first_name","gaa");
-                params.put("last_name","gaa");
-                params.put("avatar","Amor por Siempre :v");
+                params.put("name","Elmer");
+                params.put("descripcion","Daniela te amooooooordido");
+
 
                 return params;
             }
