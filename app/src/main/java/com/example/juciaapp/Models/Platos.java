@@ -1,16 +1,21 @@
 package com.example.juciaapp.Models;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /*nuevo import*/
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.juciaapp.MainActivity;
 import com.example.juciaapp.helpers.QueueUtils;
@@ -44,10 +49,65 @@ public class Platos {
     }*/
     public static void injectContactsFromCloud(final QueueUtils.QueueObject o,
                                                final ArrayList<Platos> platos,
-                                               final MainActivity _interface,
-                                               final String Tipo) {
-        String url = "https://bush-quicksand.glitch.me/product.json?tipo=" + Tipo;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                                               final MainActivity _interface
+                                              ) {
+        String url = "https://lapergolarestaurant-264903.appspot.com/categoriaProductos" ;
+        JsonRequest requestx =  new JsonRequest<JSONArray>(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for (int i = 0; response.length()> i; i++ ) {
+                            JSONObject o = new JSONObject();
+                            try {
+                                o = response.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+
+                            }
+                            Platos u = null;
+                            try {
+                                u = new Platos(o.getString("nombre"),o.getString("descripcion"),"");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            if (u != null){
+                                platos.add(u);
+                            }
+                        }
+                        _interface.refreshList();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+            /*    params.put("param1", "one");
+                params.put("param2", "two");*/
+                return params;
+            }
+
+            @Override
+            protected Response<JSONArray> parseNetworkResponse(
+                    NetworkResponse response) {
+                try {
+                    String jsonString = new String(response.data,
+                            HttpHeaderParser
+                                    .parseCharset(response.headers));
+                    return Response.success(new JSONArray(jsonString),
+                            HttpHeaderParser
+                                    .parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    return Response.error(new ParseError(e));
+                } catch (JSONException je) {
+                    return Response.error(new ParseError(je));
+                }
+            }
+        };
+/*        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
@@ -76,16 +136,17 @@ public class Platos {
                     int x = 5;
                     x++;
                     }
-                });
+                });*/
 
-        o.addToRequestQueue(jsonObjectRequest);
+        /*o.addToRequestQueue(jsonObjectRequest);*/
+        o.addToRequestQueue(requestx);
     }
 
 
     public static void sendRequestPOST(QueueUtils.QueueObject o, final MainActivity _interface) {
         String url = "http://rrojasen.alwaysdata.net/purchaseorders.json";
         url = "http://fipo.equisd.com/api/users/new.json";
-        url = "https://bush-quicksand.glitch.me/product/new.json";
+        url = "https://lapergolarestaurant-264903.appspot.com/categoriaProductos";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -124,10 +185,8 @@ public class Platos {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("name","Elmer");
+                params.put("nombre","Elmer");
                 params.put("descripcion","Daniela te amooooooordido");
-
-
                 return params;
             }
         };

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                         "Platos Limeno",
                         Toast.LENGTH_SHORT).show();
                 items.clear();
-                Platos.injectContactsFromCloud(queue, items, MainActivity.this,"limeno");
+                Platos.injectContactsFromCloud(queue, items, MainActivity.this);
                 btnTipoLimeno.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                         "Platos Huancaino",
                         Toast.LENGTH_SHORT).show();
                 items.clear();
-                Platos.injectContactsFromCloud(queue, items, MainActivity.this,"huancaino");
+                Platos.injectContactsFromCloud(queue, items, MainActivity.this);
                 btnTipoHuancaino.setBackgroundColor(Color.parseColor("#008080"));
             }
         });
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         items = new ArrayList<>();
         PlatosList = findViewById(R.id.contactosList);
 
-        Platos.injectContactsFromCloud(queue, items, this,"huancaino");
+        Platos.injectContactsFromCloud(queue, items, this);
         Platos.sendRequestPOST(queue,this);
         platosApatador = new PlatosAdaptador(this, items,queue.getImageLoader());
 
